@@ -1,26 +1,87 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
 
+/*
+ * Design tokens from the Tonik Parking Figma file (stone palette, square corners).
+ * Figma name → token:
+ *   background/default → --background      content/strong   → --foreground
+ *   background/muted   → --muted           content/default  → --content
+ *   background/accent  → --primary         content/muted    → --muted-foreground
+ *   background/strong  → --card, --popover content/on-accent → --primary-foreground
+ *   border/default     → --border          border/accent    → --border-accent
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #f5f5f4;
+  --foreground: #1b1917;
+  --content: #45403c;
+  --card: #ffffff;
+  --card-foreground: #1b1917;
+  --popover: #ffffff;
+  --popover-foreground: #1b1917;
+  --primary: #0c0a09;
+  --primary-hover: #1b1917;
+  --primary-foreground: #f5f5f4;
+  --primary-foreground-muted: #d7d3d1;
+  --secondary: #e7e5e4;
+  --secondary-foreground: #1b1917;
+  --muted: #e7e5e4;
+  --muted-foreground: #78716b;
+  --accent: #e7e5e4;
+  --accent-foreground: #1b1917;
+  --destructive: #c10008;
+  --border: #e7e5e4;
+  --border-accent: #0c0a09;
+  --input: #e7e5e4;
+  --ring: #0c0a09;
+  --overlay: rgb(27 25 23 / 0.1);
+  --radius: 0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-content: var(--content);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-foreground-muted: var(--primary-foreground-muted);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-border-accent: var(--border-accent);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-overlay: var(--overlay);
+  --font-sans: var(--font-miranda-sans);
+  --font-heading: var(--font-miranda-sans);
+  --radius-sm: var(--radius);
+  --radius-md: var(--radius);
+  --radius-lg: var(--radius);
+  --radius-xl: var(--radius);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
   }
-}
-
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  body {
+    @apply bg-background text-foreground;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+  html {
+    @apply font-sans;
+  }
 }
