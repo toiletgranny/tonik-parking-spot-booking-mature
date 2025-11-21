@@ -85,3 +85,16 @@
     @apply font-sans;
   }
 }
+
+/* Diagonal stripes on taken spots (Figma "Pattern"). */
+@utility striped {
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image: url("/stripes.svg");
+    background-size: 8px 8px;
+    opacity: 0.06;
+    pointer-events: none;
+  }
+}

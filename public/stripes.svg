@@ -1,0 +1,12 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="8" height="8" viewBox="0 0 8 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Pattern" clip-path="url(#clip0_0_4)">
+<path id="Line" d="M0 8L8 0" stroke="#0C0A09" style="stroke:#0C0A09;stroke:color(display-p3 0.0471 0.0392 0.0353);stroke-opacity:1;"/>
+<path id="Line_2" d="M-4 4L4 -4" stroke="#0C0A09" style="stroke:#0C0A09;stroke:color(display-p3 0.0471 0.0392 0.0353);stroke-opacity:1;"/>
+<path id="Line_3" d="M4 12L12 4" stroke="#0C0A09" style="stroke:#0C0A09;stroke:color(display-p3 0.0471 0.0392 0.0353);stroke-opacity:1;"/>
+</g>
+<defs>
+<clipPath id="clip0_0_4">
+<rect width="8" height="8" fill="white" style="fill:white;fill-opacity:1;"/>
+</clipPath>
+</defs>
+</svg>

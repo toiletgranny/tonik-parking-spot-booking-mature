@@ -1,0 +1,61 @@
+"use server"
+
+import { revalidatePath } from "next/cache"
+
+import { isIsoDate } from "@/lib/dates"
+import { createClient } from "@/lib/supabase/server"
+
+export type BookingFormState =
+  | { status: "idle" }
+  | { status: "error"; message: string }
+  | { status: "success"; bookedAt: number }
+
+function readText(formData: FormData, name: string) {
+  return String(formData.get(name) ?? "").trim()
+}
+
+export async function createBooking(
+  _previousState: BookingFormState,
+  formData: FormData,
+): Promise<BookingFormState> {
+  const spotId = Number(formData.get("spotId"))
+  const day = formData.get("day")
+  const driverName = readText(formData, "driverName")
+  const licensePlate = readText(formData, "licensePlate").toUpperCase()
+  const note = readText(formData, "note")
+
+  if (!Number.isInteger(spotId) || !isIsoDate(day)) {
+    return { status: "error", message: "Pick a day and a space first." }
+  }
+  if (!driverName || !licensePlate) {
+    return {
+      status: "error",
+      message: "Add a name and a license plate.",
+    }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase.from("bookings").insert({
+    spot_id: spotId,
+    booking_date: day,
+    driver_name: driverName,
+    license_plate: licensePlate,
+    note: note || null,
+  })
+
+  if (error?.code === "23505") {
+    return {
+      status: "error",
+      message: "Someone has just booked this space. Pick another one.",
+    }
+  }
+  if (error) {
+    return {
+      status: "error",
+      message: "We couldn't save your booking. Try again.",
+    }
+  }
+
+  revalidatePath("/")
+  return { status: "success", bookedAt: Date.now() }
+}
