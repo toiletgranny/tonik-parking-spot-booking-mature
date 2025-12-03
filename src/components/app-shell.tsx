@@ -82,14 +82,14 @@ export function ContentWithDetails({
   children,
   details,
 }: {
-  title: ReactNode
+  title?: ReactNode
   children: ReactNode
   details: ReactNode
 }) {
   return (
     <div className="grid h-full grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.33fr)]">
       <section className="flex min-w-0 flex-col">
-        <h2 className="p-8 text-sm font-medium">{title}</h2>
+        {title && <h2 className="p-8 text-sm font-medium">{title}</h2>}
         {children}
       </section>
       <aside className="flex min-h-80 flex-col border-t lg:border-t-0 lg:border-l">

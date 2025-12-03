@@ -62,3 +62,9 @@ export function formatDay(day: IsoDate): string {
     timeZone: "UTC",
   }).format(toUtcDate(day))
 }
+
+/** Monday of the week that `day` falls in. */
+export function startOfWeek(day: IsoDate): IsoDate {
+  const weekday = toUtcDate(day).getUTCDay()
+  return addDays(day, weekday === 0 ? -6 : 1 - weekday)
+}
