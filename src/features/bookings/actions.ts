@@ -59,3 +59,51 @@ export async function createBooking(
   revalidatePath("/")
   return { status: "success", bookedAt: Date.now() }
 }
+
+export async function updateBooking(
+  _previousState: BookingFormState,
+  formData: FormData,
+): Promise<BookingFormState> {
+  const bookingId = String(formData.get("bookingId") ?? "")
+  const driverName = readText(formData, "driverName")
+  const licensePlate = readText(formData, "licensePlate").toUpperCase()
+  const note = readText(formData, "note")
+
+  if (!driverName || !licensePlate) {
+    return {
+      status: "error",
+      message: "Add a name and a license plate.",
+    }
+  }
+
+  const supabase = await createClient()
+  const { error } = await supabase
+    .from("bookings")
+    .update({
+      driver_name: driverName,
+      license_plate: licensePlate,
+      note: note || null,
+    })
+    .eq("id", bookingId)
+
+  if (error) {
+    return { status: "error", message: "We couldn't save your changes." }
+  }
+
+  revalidatePath("/bookings")
+  revalidatePath("/")
+  return { status: "success", bookedAt: Date.now() }
+}
+
+export async function cancelBooking(bookingId: string) {
+  const supabase = await createClient()
+  const { error } = await supabase.from("bookings").delete().eq("id", bookingId)
+
+  if (error) {
+    return { ok: false as const }
+  }
+
+  revalidatePath("/bookings")
+  revalidatePath("/")
+  return { ok: true as const }
+}

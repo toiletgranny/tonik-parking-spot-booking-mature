@@ -11,6 +11,7 @@ import { formatDay, todayInOffice } from "@/lib/dates"
 import { createClient } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
 
+import { BookingDetailsForm } from "./booking-details-form"
 import { isInPeriod, PERIODS, type PeriodId } from "./periods"
 
 type MyBookingsProps = {
@@ -31,7 +32,9 @@ export async function MyBookings({
   const supabase = await createClient()
   const { data: bookings, error } = await supabase
     .from("bookings")
-    .select("id, booking_date, driver_name, parking_spots(label)")
+    .select(
+      "id, booking_date, driver_name, license_plate, note, parking_spots(label)",
+    )
     .order("booking_date", { ascending: false })
 
   if (error) throw error
@@ -77,11 +80,23 @@ export async function MyBookings({
       <ContentWithDetails
         details={
           selected ? (
-            <div className="flex flex-col gap-2 px-8">
-              <p className="text-muted-foreground text-xs">Space</p>
-              <p className="text-2xl tracking-[-0.04em]">
-                {selected.parking_spots.label}
-              </p>
+            <div className="flex flex-1 flex-col gap-4">
+              <div className="flex flex-col gap-2 px-8">
+                <p className="text-muted-foreground text-xs">Space</p>
+                <p className="text-2xl tracking-[-0.04em]">
+                  {selected.parking_spots.label}
+                </p>
+              </div>
+              <BookingDetailsForm
+                key={selected.id}
+                booking={{
+                  id: selected.id,
+                  driverName: selected.driver_name,
+                  licensePlate: selected.license_plate,
+                  note: selected.note,
+                }}
+                afterDeleteHref={`/bookings?period=${period}`}
+              />
             </div>
           ) : (
             <p className="text-muted-foreground px-8 text-xs">

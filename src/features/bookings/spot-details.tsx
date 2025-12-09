@@ -1,6 +1,6 @@
 import Image from "next/image"
-import type { ReactNode } from "react"
 
+import { BookingDetailsForm } from "./booking-details-form"
 import { BookingForm } from "./booking-form"
 import type { Booking } from "./queries"
 
@@ -48,23 +48,12 @@ export function SpotDetails(props: SpotDetailsProps) {
         </p>
       )}
       {props.state === "mine" && (
-        <dl className="flex flex-col gap-4 px-8">
-          <Field label="Name">{props.booking.driverName}</Field>
-          <Field label="License plate">{props.booking.licensePlate}</Field>
-          {props.booking.note && (
-            <Field label="Note">{props.booking.note}</Field>
-          )}
-        </dl>
+        <BookingDetailsForm
+          key={props.booking.id}
+          booking={props.booking}
+          afterDeleteHref={`/?day=${props.booking.day}`}
+        />
       )}
-    </div>
-  )
-}
-
-function Field({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="flex flex-col gap-1">
-      <dt className="text-muted-foreground text-xs">{label}</dt>
-      <dd className="py-2 text-base break-words">{children}</dd>
     </div>
   )
 }
