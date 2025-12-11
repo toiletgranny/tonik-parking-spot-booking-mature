@@ -65,7 +65,7 @@ export function BookingForm({ spotId, day, defaultName }: BookingFormProps) {
           <Textarea id="note" name="note" placeholder="e.g. 9–5" rows={1} />
         </div>
         {state.status === "error" && (
-          <p role="alert" className="text-destructive text-sm">
+          <p role="alert" className="text-sm text-destructive">
             {state.message}
           </p>
         )}
@@ -74,7 +74,7 @@ export function BookingForm({ spotId, day, defaultName }: BookingFormProps) {
         <Button type="submit" className="w-full" disabled={isPending}>
           {isPending ? "Booking…" : "Confirm and book"}
         </Button>
-        <p className="text-muted-foreground text-center text-xs">
+        <p className="text-center text-xs text-muted-foreground">
           Remember, you&apos;re taking a space that other drivers may need
         </p>
       </div>

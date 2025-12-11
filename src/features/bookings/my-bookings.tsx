@@ -82,7 +82,7 @@ export async function MyBookings({
           selected ? (
             <div className="flex flex-1 flex-col gap-4">
               <div className="flex flex-col gap-2 px-8">
-                <p className="text-muted-foreground text-xs">Space</p>
+                <p className="text-xs text-muted-foreground">Space</p>
                 <p className="text-2xl tracking-[-0.04em]">
                   {selected.parking_spots.label}
                 </p>
@@ -99,7 +99,7 @@ export async function MyBookings({
               />
             </div>
           ) : (
-            <p className="text-muted-foreground px-8 text-xs">
+            <p className="px-8 text-xs text-muted-foreground">
               Select a booking to see its details
             </p>
           )
@@ -136,7 +136,7 @@ export async function MyBookings({
                         ) : (
                           <>
                             <span className="text-content">Reserved</span>
-                            <span className="text-muted-foreground truncate">
+                            <span className="truncate text-muted-foreground">
                               {booking.driver_name}
                             </span>
                           </>

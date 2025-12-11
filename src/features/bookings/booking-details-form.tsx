@@ -104,7 +104,7 @@ export function BookingDetailsForm({
           />
         </div>
         {state.status === "error" && (
-          <p role="alert" className="text-destructive text-sm">
+          <p role="alert" className="text-sm text-destructive">
             {state.message}
           </p>
         )}

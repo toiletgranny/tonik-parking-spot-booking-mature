@@ -22,7 +22,7 @@ export function SpotDetails(props: SpotDetailsProps) {
     return (
       <div className="flex flex-col items-center gap-4 p-8 text-center">
         <Image src="/arrow-hint.svg" alt="" width={72} height={48} />
-        <p className="text-muted-foreground text-xs">
+        <p className="text-xs text-muted-foreground">
           Select a space to view details or book it
         </p>
       </div>
@@ -32,7 +32,7 @@ export function SpotDetails(props: SpotDetailsProps) {
   return (
     <div className="flex flex-1 flex-col gap-4">
       <div className="flex flex-col gap-2 px-8">
-        <p className="text-muted-foreground text-xs">Space</p>
+        <p className="text-xs text-muted-foreground">Space</p>
         <p className="text-2xl tracking-[-0.04em]">{props.spotLabel}</p>
       </div>
       {props.state === "available" && (
@@ -43,7 +43,7 @@ export function SpotDetails(props: SpotDetailsProps) {
         />
       )}
       {props.state === "taken" && (
-        <p className="text-content px-8 text-sm">
+        <p className="px-8 text-sm text-content">
           Someone has already booked this space for the day.
         </p>
       )}

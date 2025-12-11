@@ -28,7 +28,7 @@ export function AppShell({
   return (
     <div className="grid min-h-dvh grid-cols-1 lg:grid-cols-[minmax(0,1fr)_minmax(0,4fr)] lg:grid-rows-[auto_minmax(0,1fr)]">
       <div className="flex items-end justify-between gap-6 border-b px-8 py-8 lg:flex-col lg:items-start lg:border-r lg:py-12">
-        <p className="text-content text-sm">Tonik Parking</p>
+        <p className="text-sm text-content">Tonik Parking</p>
         <div className="flex w-full items-end justify-between gap-4">
           <Link href="/" aria-label="Tonik Parking home">
             <Image src="/tonik-logo.svg" alt="" width={48} height={48} />
@@ -37,7 +37,7 @@ export function AppShell({
         </div>
       </div>
       <header className="flex flex-col gap-8 border-b px-8 py-12">
-        <p className="text-content text-sm">{eyebrow}</p>
+        <p className="text-sm text-content">{eyebrow}</p>
         <h1 className="text-4xl tracking-[-0.04em] lg:text-5xl">{title}</h1>
       </header>
       <aside className="flex flex-col border-b lg:border-r">
@@ -65,7 +65,7 @@ export function SectionNav({ items }: SectionNavProps) {
           className={cn(
             "hover:text-foreground",
             item.current
-              ? "text-foreground font-medium"
+              ? "font-medium text-foreground"
               : "text-muted-foreground",
           )}
         >
@@ -117,7 +117,7 @@ export function ListItem({ href, label, caption, active }: ListItemProps) {
         "relative flex gap-2 px-8 py-3 text-sm",
         active
           ? "bg-primary text-primary-foreground"
-          : "text-content after:bg-border hover:bg-muted after:absolute after:inset-x-8 after:bottom-0 after:h-px",
+          : "text-content after:absolute after:inset-x-8 after:bottom-0 after:h-px after:bg-border hover:bg-muted",
       )}
     >
       <span className="flex-1">{label}</span>
