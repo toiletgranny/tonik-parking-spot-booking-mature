@@ -14,7 +14,8 @@
     "db:stop": "supabase stop",
     "db:reset": "supabase db reset",
     "db:status": "supabase status",
-    "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts && prettier --write src/lib/supabase/database.types.ts --ignore-path="
+    "db:types": "supabase gen types typescript --local > src/lib/supabase/database.types.ts && prettier --write src/lib/supabase/database.types.ts --ignore-path=",
+    "prepare": "husky"
   },
   "dependencies": {
     "@supabase/ssr": "0.12.7",
@@ -37,6 +38,7 @@
     "@types/react-dom": "19.3.0",
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.3",
+    "husky": "9.1.7",
     "prettier": "3.9.10",
     "prettier-plugin-tailwindcss": "0.8.1",
     "supabase": "2.122.0",
