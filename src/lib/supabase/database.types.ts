@@ -98,6 +98,28 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          full_name: string
+          id: string
+          license_plate: string | null
+          updated_at: string
+        }
+        ComputedFields: never
+        Insert: {
+          full_name?: string
+          id: string
+          license_plate?: string | null
+          updated_at?: string
+        }
+        Update: {
+          full_name?: string
+          id?: string
+          license_plate?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
