@@ -1,8 +1,9 @@
 import type { Metadata } from "next"
 
-import { SignOutButton } from "@/features/auth/sign-out-button"
 import { MyBookings } from "@/features/bookings/my-bookings"
 import { isPeriodId } from "@/features/bookings/periods"
+
+import { AccountLinks } from "../account-links"
 
 export const metadata: Metadata = {
   title: "My bookings · Tonik Parking",
@@ -19,7 +20,7 @@ export default async function MyBookingsPage({
       selectedBookingId={
         typeof params.booking === "string" ? params.booking : undefined
       }
-      account={<SignOutButton />}
+      account={<AccountLinks />}
     />
   )
 }

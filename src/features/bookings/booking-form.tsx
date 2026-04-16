@@ -15,9 +15,15 @@ type BookingFormProps = {
   spotId: number
   day: string
   defaultName: string
+  defaultLicensePlate: string
 }
 
-export function BookingForm({ spotId, day, defaultName }: BookingFormProps) {
+export function BookingForm({
+  spotId,
+  day,
+  defaultName,
+  defaultLicensePlate,
+}: BookingFormProps) {
   const [state, formAction, isPending] = useActionState<
     BookingFormState,
     FormData
@@ -55,6 +61,7 @@ export function BookingForm({ spotId, day, defaultName }: BookingFormProps) {
           <Input
             id="licensePlate"
             name="licensePlate"
+            defaultValue={defaultLicensePlate}
             placeholder="e.g. AB24 CDE"
             className="uppercase placeholder:normal-case"
             required

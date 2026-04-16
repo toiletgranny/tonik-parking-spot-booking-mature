@@ -3,9 +3,9 @@ import {
   ContentWithDetails,
   SectionNav,
 } from "@/components/app-shell"
-import { SignOutButton } from "@/features/auth/sign-out-button"
 import { getOwnBookings } from "@/features/bookings/queries"
 import { SpotDetails } from "@/features/bookings/spot-details"
+import { getProfile } from "@/features/profile/queries"
 import { DayList } from "@/features/spots/day-list"
 import { getSpots, getTakenSpots } from "@/features/spots/queries"
 import type { SpotStatus } from "@/features/spots/spot-card"
@@ -16,7 +16,8 @@ import {
   todayInOffice,
   upcomingWorkdays,
 } from "@/lib/dates"
-import { createClient } from "@/lib/supabase/server"
+
+import { AccountLinks } from "./account-links"
 
 const DAYS_SHOWN = 10
 
@@ -30,9 +31,8 @@ export default async function BookPage({ searchParams }: PageProps<"/">) {
   const selectedSpotLabel =
     typeof params.spot === "string" ? params.spot : undefined
 
-  const supabase = await createClient()
-  const [{ data: auth }, spots, takenSpots, ownBookings] = await Promise.all([
-    supabase.auth.getClaims(),
+  const [profile, spots, takenSpots, ownBookings] = await Promise.all([
+    getProfile(),
     getSpots(),
     getTakenSpots(firstDay, lastDay),
     getOwnBookings(firstDay, lastDay),
@@ -59,13 +59,12 @@ export default async function BookPage({ searchParams }: PageProps<"/">) {
     (booking) =>
       booking.day === selectedDay && booking.spotId === selectedSpot?.id,
   )
-  const defaultName = String(auth?.claims.user_metadata?.full_name ?? "")
 
   return (
     <AppShell
       eyebrow="Selected day"
       title={formatDay(selectedDay)}
-      account={<SignOutButton />}
+      account={<AccountLinks />}
       nav={
         <SectionNav
           items={[
@@ -103,7 +102,8 @@ export default async function BookPage({ searchParams }: PageProps<"/">) {
               spotId={selectedSpot.id}
               spotLabel={selectedSpot.label}
               day={selectedDay}
-              defaultName={defaultName}
+              defaultName={profile.fullName}
+              defaultLicensePlate={profile.licensePlate ?? ""}
             />
           )
         }

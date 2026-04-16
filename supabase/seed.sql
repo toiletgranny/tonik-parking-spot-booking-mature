@@ -33,3 +33,8 @@ new_users as (
 insert into auth.identities (user_id, provider_id, provider, identity_data, last_sign_in_at, created_at, updated_at)
 select id, id::text, 'email', jsonb_build_object('sub', id::text, 'email', email, 'email_verified', true), now(), now(), now()
 from new_users;
+
+-- Alex has a saved plate, so you can see the booking form pre-filled.
+update public.profiles
+set license_plate = 'WA 4821K'
+where id = '6f1c1a52-0c55-4d0e-9a0c-1d3a0f2b7a01';

@@ -12,6 +12,7 @@ type SpotDetailsProps =
       spotLabel: string
       day: string
       defaultName: string
+      defaultLicensePlate: string
     }
   | { state: "taken"; spotLabel: string }
   | { state: "mine"; spotLabel: string; booking: Booking }
@@ -40,6 +41,7 @@ export function SpotDetails(props: SpotDetailsProps) {
           spotId={props.spotId}
           day={props.day}
           defaultName={props.defaultName}
+          defaultLicensePlate={props.defaultLicensePlate}
         />
       )}
       {props.state === "taken" && (

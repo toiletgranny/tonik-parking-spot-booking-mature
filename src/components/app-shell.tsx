@@ -30,7 +30,7 @@ export function AppShell({
       <div className="flex items-end justify-between gap-6 border-b px-8 py-8 lg:flex-col lg:items-start lg:border-r lg:py-12">
         <p className="text-sm text-content">Tonik Parking</p>
         <div className="flex w-full items-end justify-between gap-4">
-          <Link href="/" aria-label="Tonik Parking home">
+          <Link href="/" aria-label="Tonik Parking home" className="shrink-0">
             <Image src="/tonik-logo.svg" alt="" width={48} height={48} />
           </Link>
           {account}
