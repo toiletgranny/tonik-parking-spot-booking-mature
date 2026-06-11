@@ -18,6 +18,7 @@ import {
 } from "@/lib/dates"
 
 import { AccountLinks } from "./account-links"
+import { navItems } from "./nav-items"
 
 const DAYS_SHOWN = 10
 
@@ -65,14 +66,7 @@ export default async function BookPage({ searchParams }: PageProps<"/">) {
       eyebrow="Selected day"
       title={formatDay(selectedDay)}
       account={<AccountLinks />}
-      nav={
-        <SectionNav
-          items={[
-            { href: "/", label: "Book a space", current: true },
-            { href: "/bookings", label: "My bookings", current: false },
-          ]}
-        />
-      }
+      nav={<SectionNav items={navItems("/")} />}
       sidebar={
         <DayList
           days={days}

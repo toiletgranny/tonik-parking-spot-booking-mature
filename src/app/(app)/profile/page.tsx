@@ -5,6 +5,7 @@ import { getProfile } from "@/features/profile/queries"
 import { ProfileForm } from "@/features/profile/profile-form"
 
 import { AccountLinks } from "../account-links"
+import { navItems } from "../nav-items"
 
 export const metadata: Metadata = {
   title: "Profile · Tonik Parking",
@@ -18,14 +19,7 @@ export default async function ProfilePage() {
       eyebrow="Your profile"
       title={profile.fullName || "Your profile"}
       account={<AccountLinks />}
-      nav={
-        <SectionNav
-          items={[
-            { href: "/", label: "Book a space", current: false },
-            { href: "/bookings", label: "My bookings", current: false },
-          ]}
-        />
-      }
+      nav={<SectionNav items={navItems("")} />}
       sidebar={null}
     >
       <section className="flex flex-col">

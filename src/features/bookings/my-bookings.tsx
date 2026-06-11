@@ -1,12 +1,7 @@
 import Link from "next/link"
 import type { ReactNode } from "react"
 
-import {
-  AppShell,
-  ContentWithDetails,
-  ListItem,
-  SectionNav,
-} from "@/components/app-shell"
+import { AppShell, ContentWithDetails, ListItem } from "@/components/app-shell"
 import { formatDay, todayInOffice } from "@/lib/dates"
 import { createClient } from "@/lib/supabase/server"
 import { cn } from "@/lib/utils"
@@ -18,6 +13,7 @@ type MyBookingsProps = {
   period: PeriodId
   selectedBookingId?: string
   account: ReactNode
+  nav: ReactNode
 }
 
 function bookingsCaption(count: number) {
@@ -28,6 +24,7 @@ export async function MyBookings({
   period,
   selectedBookingId,
   account,
+  nav,
 }: MyBookingsProps) {
   const supabase = await createClient()
   const { data: bookings, error } = await supabase
@@ -52,14 +49,7 @@ export async function MyBookings({
       eyebrow="Selected period"
       title={periodLabel}
       account={account}
-      nav={
-        <SectionNav
-          items={[
-            { href: "/", label: "Book a space", current: false },
-            { href: "/bookings", label: "My bookings", current: true },
-          ]}
-        />
-      }
+      nav={nav}
       sidebar={
         <div className="flex flex-col">
           {PERIODS.map((p) => (
