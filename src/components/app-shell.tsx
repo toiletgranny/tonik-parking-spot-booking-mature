@@ -114,7 +114,7 @@ export function ListItem({ href, label, caption, active }: ListItemProps) {
       href={href}
       aria-current={active ? "true" : undefined}
       className={cn(
-        "relative flex gap-2 px-8 py-3 text-sm",
+        "relative flex gap-2 px-8 py-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset",
         active
           ? "bg-primary text-primary-foreground"
           : "text-content after:absolute after:inset-x-8 after:bottom-0 after:h-px after:bg-border hover:bg-muted",

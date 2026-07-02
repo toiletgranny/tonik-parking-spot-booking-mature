@@ -111,7 +111,7 @@ export async function MyBookings({
                       scroll={false}
                       aria-current={isSelected ? "true" : undefined}
                       className={cn(
-                        "relative flex flex-col gap-4 overflow-hidden border p-4",
+                        "relative flex flex-col gap-4 overflow-hidden border p-4 outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
                         isSelected
                           ? "border-primary bg-primary text-primary-foreground"
                           : "striped bg-muted",

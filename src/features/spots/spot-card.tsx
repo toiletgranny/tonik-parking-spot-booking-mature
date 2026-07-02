@@ -28,7 +28,7 @@ export function SpotCard({ href, label, status, selected }: SpotCardProps) {
       className={cn(
         // Right and bottom borders only: the grid draws the top and left edge,
         // so neighbouring cards share one 1px line instead of doubling it.
-        "relative flex flex-col gap-4 overflow-hidden border-r border-b p-4",
+        "relative flex flex-col gap-4 overflow-hidden border-r border-b p-4 outline-none focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background",
         selected
           ? "border-primary bg-primary text-primary-foreground"
           : status !== "available" && "striped bg-muted",
