@@ -49,6 +49,14 @@ export async function createBooking(
       message: "Someone has just booked this space. Pick another one.",
     }
   }
+  // 42501: row-level security refused the insert (the day is in the past).
+  // 23514: a check constraint failed (weekend).
+  if (error?.code === "42501" || error?.code === "23514") {
+    return {
+      status: "error",
+      message: "You can only book workdays from today onwards.",
+    }
+  }
   if (error) {
     return {
       status: "error",
