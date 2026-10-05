@@ -133,5 +133,5 @@ The design lives in the Tonik Parking Figma file. Colors, type and components in
 
 - **`Cannot connect to the Docker daemon`**: Docker Desktop isn't running. Open it, wait until it says it's running, and try again.
 - **`port is already allocated`** when starting the database: another local Supabase project is running. Stop it first (`npx supabase stop --project-id <its name>`), or stop this one with `npm run db:stop`.
-- **The app shows an error about the Supabase URL or key**: check `.env.local` against `npm run db:status`, then restart `npm run dev`.
-- **Signed out after `npm run db:reset`**: expected. The reset wipes sessions too, so sign in again.
+- **`Your project's URL and Key are required to create a Supabase client!`**: `.env.local` is missing or empty. Redo step 3, then restart `npm run dev`.
+- **Something looks odd after `npm run db:reset`**: sign out and back in. Your browser keeps you signed in across resets, but your old bookings are gone.
