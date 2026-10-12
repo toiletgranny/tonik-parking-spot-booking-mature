@@ -65,6 +65,7 @@ export async function createBooking(
   }
 
   revalidatePath("/")
+  revalidatePath("/bookings")
   return { status: "success", bookedAt: Date.now() }
 }
 
