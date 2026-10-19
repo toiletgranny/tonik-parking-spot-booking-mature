@@ -25,12 +25,12 @@ export async function createBooking(
   const note = readText(formData, "note")
 
   if (!Number.isInteger(spotId) || !isIsoDate(day)) {
-    return { status: "error", message: "Pick a day and a space first." }
+    return { status: "error", message: "Invalid request." }
   }
   if (!driverName || !licensePlate) {
     return {
       status: "error",
-      message: "Add a name and a license plate.",
+      message: "Name and plate required.",
     }
   }
 
@@ -46,7 +46,7 @@ export async function createBooking(
   if (error?.code === "23505") {
     return {
       status: "error",
-      message: "Someone has just booked this space. Pick another one.",
+      message: "Spot taken.",
     }
   }
   // 42501: row-level security refused the insert (the day is in the past).
@@ -54,13 +54,13 @@ export async function createBooking(
   if (error?.code === "42501" || error?.code === "23514") {
     return {
       status: "error",
-      message: "You can only book workdays from today onwards.",
+      message: "Date not allowed.",
     }
   }
   if (error) {
     return {
       status: "error",
-      message: "We couldn't save your booking. Try again.",
+      message: "Booking failed.",
     }
   }
 
@@ -81,7 +81,7 @@ export async function updateBooking(
   if (!driverName || !licensePlate) {
     return {
       status: "error",
-      message: "Add a name and a license plate.",
+      message: "Name and plate required.",
     }
   }
 
@@ -96,7 +96,7 @@ export async function updateBooking(
     .eq("id", bookingId)
 
   if (error) {
-    return { status: "error", message: "We couldn't save your changes." }
+    return { status: "error", message: "Update failed." }
   }
 
   revalidatePath("/bookings")
