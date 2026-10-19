@@ -8,6 +8,8 @@ const mirandaSans = Miranda_Sans({
   variable: "--font-miranda-sans",
   subsets: ["latin", "latin-ext"],
   weight: ["400", "500"],
+  // next/font has no fallback metrics for Miranda Sans yet; skip the warning.
+  adjustFontFallback: false,
 })
 
 export const metadata: Metadata = {
