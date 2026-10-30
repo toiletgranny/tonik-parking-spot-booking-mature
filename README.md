@@ -1,6 +1,6 @@
 # Tonik Parking
 
-Book a parking space at the Tonik office. Pick a day, pick a free space, and it's yours. Everyone can see which spaces are taken, but not who took them.
+Book a parking space at the Tonik office (CI test in a fork). Pick a day, pick a free space, and it's yours. Everyone can see which spaces are taken, but not who took them.
 
 This README gets you from zero to the app running on your laptop, with its own local database. You don't need to be a developer to follow it.
 
