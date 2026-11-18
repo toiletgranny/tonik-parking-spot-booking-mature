@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
 import { createBooking, type BookingFormState } from "./actions"
+import { showBookingError } from "./error-toast"
 import { RequiredMark } from "./required-mark"
 
 type BookingFormProps = {
@@ -27,7 +28,15 @@ export function BookingForm({
   const [state, formAction, isPending] = useActionState<
     BookingFormState,
     FormData
-  >(createBooking, { status: "idle" })
+  >(
+    async (previousState, formData) => {
+      const result = await createBooking(previousState, formData)
+      // Shown here, not in an effect: after "space taken" the form is replaced.
+      if (result.status === "error") showBookingError(result)
+      return result
+    },
+    { status: "idle" },
+  )
 
   useEffect(() => {
     if (state.status === "success") {
@@ -71,11 +80,6 @@ export function BookingForm({
           <Label htmlFor="note">Note</Label>
           <Textarea id="note" name="note" placeholder="e.g. 9–5" rows={1} />
         </div>
-        {state.status === "error" && (
-          <p role="alert" className="text-sm text-destructive">
-            {state.message}
-          </p>
-        )}
       </div>
       <div className="mt-auto flex flex-col gap-4 p-8">
         <Button type="submit" className="w-full" disabled={isPending}>
