@@ -5,10 +5,22 @@ import { revalidatePath } from "next/cache"
 import { isIsoDate } from "@/lib/dates"
 import { createClient } from "@/lib/supabase/server"
 
+/** An error says what happened (title) and what to do next (description). */
+export type BookingError = { title: string; description: string }
+
 export type BookingFormState =
   | { status: "idle" }
-  | { status: "error"; message: string }
+  | ({ status: "error" } & BookingError)
   | { status: "success"; bookedAt: number }
+
+const missingDetails: BookingError = {
+  title: "Add a name and license plate",
+  description: "We need both so everyone knows whose car is in the space.",
+}
+
+function fail(error: BookingError): BookingFormState {
+  return { status: "error", ...error }
+}
 
 function readText(formData: FormData, name: string) {
   return String(formData.get(name) ?? "").trim()
@@ -25,13 +37,13 @@ export async function createBooking(
   const note = readText(formData, "note")
 
   if (!Number.isInteger(spotId) || !isIsoDate(day)) {
-    return { status: "error", message: "Invalid request." }
+    return fail({
+      title: "We couldn't read this booking",
+      description: "Pick the day and space again, then book.",
+    })
   }
   if (!driverName || !licensePlate) {
-    return {
-      status: "error",
-      message: "Name and plate required.",
-    }
+    return fail(missingDetails)
   }
 
   const supabase = await createClient()
@@ -44,24 +56,34 @@ export async function createBooking(
   })
 
   if (error?.code === "23505") {
-    return {
-      status: "error",
-      message: "Spot taken.",
-    }
+    // Refresh so the space now shows as taken.
+    revalidatePath("/")
+    revalidatePath("/bookings")
+    return fail({
+      title: "Someone just booked this space",
+      description:
+        "Pick another free space for this day. The list is up to date now.",
+    })
   }
   // 42501: row-level security refused the insert (the day is in the past).
+  if (error?.code === "42501") {
+    return fail({
+      title: "This day has already passed",
+      description: "Pick today or a later workday.",
+    })
+  }
   // 23514: a check constraint failed (weekend).
-  if (error?.code === "42501" || error?.code === "23514") {
-    return {
-      status: "error",
-      message: "Date not allowed.",
-    }
+  if (error?.code === "23514") {
+    return fail({
+      title: "You can't book weekends",
+      description: "Pick a workday, Monday to Friday.",
+    })
   }
   if (error) {
-    return {
-      status: "error",
-      message: "Booking failed.",
-    }
+    return fail({
+      title: "We couldn't save your booking",
+      description: "Nothing was booked. Try again in a moment.",
+    })
   }
 
   revalidatePath("/")
@@ -79,10 +101,7 @@ export async function updateBooking(
   const note = readText(formData, "note")
 
   if (!driverName || !licensePlate) {
-    return {
-      status: "error",
-      message: "Name and plate required.",
-    }
+    return fail(missingDetails)
   }
 
   const supabase = await createClient()
@@ -96,7 +115,10 @@ export async function updateBooking(
     .eq("id", bookingId)
 
   if (error) {
-    return { status: "error", message: "Update failed." }
+    return fail({
+      title: "We couldn't save your changes",
+      description: "Your booking is unchanged. Try again in a moment.",
+    })
   }
 
   revalidatePath("/bookings")

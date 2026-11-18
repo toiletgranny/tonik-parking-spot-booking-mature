@@ -21,6 +21,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
 import { cancelBooking, updateBooking, type BookingFormState } from "./actions"
+import { showBookingError } from "./error-toast"
 import { RequiredMark } from "./required-mark"
 
 type BookingDetailsFormProps = {
@@ -44,7 +45,14 @@ export function BookingDetailsForm({
   const [state, formAction, isSaving] = useActionState<
     BookingFormState,
     FormData
-  >(updateBooking, { status: "idle" })
+  >(
+    async (previousState, formData) => {
+      const result = await updateBooking(previousState, formData)
+      if (result.status === "error") showBookingError(result)
+      return result
+    },
+    { status: "idle" },
+  )
 
   useEffect(() => {
     if (state.status === "success") toast("Changes saved")
@@ -54,8 +62,9 @@ export function BookingDetailsForm({
     startDeleting(async () => {
       const result = await cancelBooking(booking.id)
       if (!result.ok) {
-        toast("We couldn't delete this booking", {
-          description: "Try again in a moment.",
+        showBookingError({
+          title: "We couldn't delete this booking",
+          description: "It's still booked for you. Try again in a moment.",
         })
         return
       }
@@ -103,11 +112,6 @@ export function BookingDetailsForm({
             rows={1}
           />
         </div>
-        {state.status === "error" && (
-          <p role="alert" className="text-sm text-destructive">
-            {state.message}
-          </p>
-        )}
       </div>
       <div className="mt-auto flex flex-col gap-2 p-8">
         <Button type="submit" className="w-full" disabled={isSaving}>
